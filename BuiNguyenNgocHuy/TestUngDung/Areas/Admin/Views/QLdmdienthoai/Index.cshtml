@@ -1,0 +1,97 @@
+﻿@model IEnumerable < ModelEF.Model.Category>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Assets/admin/css/sb-admin-2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-8 text-gray-800">Danh mục sản phẩm</h1>  
+        <a href="/Admin/QLDMDienthoai/Create" class="btn btn-primary mb-2" style="color: white;background-color:#4e73df;border-color:#4e73df"><i class="fa fa-plus"></i>&nbsp; Thêm</a>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example" class="table table-bordered table-striped table-responsive" @*cellspacing="0"*@ @*role="grid"*@ @*aria-describedby="dataTable_info" style="width: 100%;"*@>
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 25%;">
+                                                Mã Danh mục
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 10%;">
+                                                Tên Danh Mục
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 15%;">
+                                                Mô Tả
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 15%;">
+                                                Tác vụ
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr role="row" class="odd">
+                                                    <td>@item.ID</td>
+                                                    <td>@item.Name</td>
+                                                    <td>@item.Description</td>
+
+                                                    @*<td>@item.pin</td>*@
+                                                    <td>
+                                                        @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-info", @title = "Chỉnh sửa" })
+
+                                                        <div class="btn btn-warning" title="Xóa" , onclick="Xoa()">
+                                                            &nbsp;
+                                                            @Ajax.ActionLink("Xoá", "Delete", new { @id = item.ID }, new AjaxOptions
+                                                       {
+                                                           Confirm = "Bạn có muốn xoá " + @item.ID + "?",
+                                                           OnComplete = "$('#row_" + @item.ID + "').remove()",
+                                                           HttpMethod = "Delete"
+                                                       })
+                                                        </div>
+                                                        @*@Html.ActionLink("Xóa", "Delete", new { id = item.madm }, new { @class = "btn btn-danger del", @title = "Xóa", @onclick = "Xoa()" })*@
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Assets/admin/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Assets/admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+    <script>
+        function Xoa() {
+            alert('Hãy cân nhắc cho việc xóa bản ghi?')
+        }
+    </script>
+</body>
+
+</html>

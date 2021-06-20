@@ -1,0 +1,76 @@
+﻿@model ModelEF.Model.UserAccount
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="/Admin/QLDMDienthoai/Index">Danh Mục sản phẩm</a></li>
+                        <li class="breadcrumb-item active">Sửa</li>
+                    </ol>
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.ID)
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="card card-primary">
+        <div class="card-header" style="background-color:#ffc107;color:#1f2d3d">
+            <h4 class="card-title">Sửa Sản Phẩm</h4>
+        </div>
+        <form role="form">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName, "Tài khoản", htmlAttributes: new { @class = "control-label col-md-5" })
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, "Mật khẩu", htmlAttributes: new { @class = "control-label col-md-5" })
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "control-label col-md-5" })
+                            @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="col-12 form-actions">
+                    &nbsp;&nbsp;<button type="submit" value="Edit" class="btn btn-primary" onclick="Sua()"> <i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                    <button class="btn alert-success">@Html.ActionLink("Quay Lại Danh Sách", "Index")</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function Sua() {
+            alert('Bạn chắc chắn muốn sửa?')
+        }
+    </script>
+}
+

@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Điện Máy Xanh</title>
+    <link href="Contents/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!--jquery first, bootstrap later-->
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+
+<body>
+    <div class="container" style="margin:0 auto;padding:0; background-color:#ffffff">
+        <header class="nn-header" style="background-color:deepskyblue;margin-top:0%;width:1353px;margin-left:-8%; height:120px">
+            <div class="col-sm-3 col-md-3 nn-text-align-center">
+                <a href="/Home/Index">
+                    <img src="~/Images/dienmayxanh.png" style="width:283px;height:125px;padding: 10px;border-radius:4px;margin-left:22%" class="img-responsive" />
+                </a>
+            </div><!--end logo-->
+            <div class="col-md-6 col-sm-6 ">
+                @Html.Partial("_Search")
+
+            </div><!--end search box-->
+            @Html.Partial("_ShopCart")
+            <div class="col-11 col-sm-12 col-md-12 ">
+                <div class="row">
+                    <div class="col-12 col-xs-12 ">
+                        <ul class="breadcrumb">
+                            <li class="home">
+                                <a style="text-decoration:none !important   " href="/Home/Index"><span style="font-size:16px;"><i class="glyphicon glyphicon-home"></i> Trang chủ</span></a>
+                                <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                            </li>
+                            <li><strong><span style="font-size:16px">Tin tức</span></strong></li>
+                        </ul>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </header>
+        @*@Html.Partial("_Menu")*@
+        <div class="container row">
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                @RenderBody()
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

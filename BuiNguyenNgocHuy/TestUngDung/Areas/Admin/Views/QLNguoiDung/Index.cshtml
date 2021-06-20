@@ -1,0 +1,161 @@
+﻿@model PagedList.IPagedList<ModelEF.Model.UserAccount>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Assets/admin/css/sb-admin-2.min.css" rel="stylesheet" />
+    <style>
+        .ul.pagination {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul.pagination li {
+            display: inline;
+        }
+                    ul.pagination li a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+                transition: background-color .3s;
+            }
+
+                ul.pagination li a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+
+                ul.pagination li a:hover:not(.active) {
+                    background-color: #ddd;
+                }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-8 text-gray-800">Danh sách người dùng</h1> 
+        @using (Html.BeginForm("Index", "QLNguoiDung", FormMethod.Get))
+        {
+            <div class="row form-group">
+
+                <div class="col-lg-12">
+                    <div class="col-md-4">
+                        <input type="text" value="@ViewBag.SearchString" class="form-control" name="searchString" />
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-success">Tìm kiếm</button>
+                    </div>
+                </div>
+
+            </div>}
+        <a href="/Admin/QLNguoiDung/Create" class="btn btn-primary mb-2" style="color: white;background-color:#4e73df;border-color:#4e73df"><i class="fa fa-plus"></i>&nbsp; Thêm</a>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+
+                <div class="table">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example" class="table table-bordered table-striped table-responsive" @*cellspacing="0"*@ @*role="grid"*@ @*aria-describedby="dataTable_info" style="width: 100%;"*@>
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 25%;">
+                                                Mã Người dùng
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 10%;">
+                                                Tài khoản
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 15%;">
+                                                Mật khẩu
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 15%;">
+                                                Trạng thái
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 15%;">
+                                                Tác vụ
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr role="row" class="odd">
+                                                    <td>@item.ID</td>
+                                                    <td>@item.UserName</td>
+                                                    <td>@item.Password</td>
+                                                    <td><a href="#" class="btn-active" data-id="@item.ID"> @Html.Raw(item.Status ? "<strong>Kích hoạt</strong>" : "Khoá")</a></td>
+
+
+                                                    @*<td>@item.pin</td>*@
+                                                    <td>
+                                                        @Html.ActionLink("Sửa", "Edit", new { id = item.ID }, new { @class = "btn btn-info", @title = "Chỉnh sửa" })
+
+                                                        <div class="btn btn-warning" title="Xóa" , onclick="Xoa()">
+                                                            &nbsp;
+                                                            @Ajax.ActionLink("Xoá", "Delete", new { @id = item.ID }, new AjaxOptions
+                                                       {
+                                                           Confirm = "Bạn có muốn xoá " + @item.ID + "?",
+                                                           OnComplete = "$('#row_" + @item.ID + "').remove()",
+                                                           HttpMethod = "Delete"
+                                                       })
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+
+                                </table>
+                                <br />
+                                <div>
+
+                                    <div id="container" style="margin-left: 20px">
+                                        <p></p>
+                                        <p></p>
+                                        <div class="pagination" style="margin-left: 400px">
+                                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                                            of @Model.PageCount  <br />
+                                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @searchString = @ViewBag.SearchString }))
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+
+                                <!-- Kết thúc -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Assets/admin/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Assets/admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    @*<script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>*@
+    <script>
+        function Xoa() {
+            alert('Hãy cân nhắc cho việc xóa bản ghi?')
+        }
+    </script>
+</body>
+
+</html>
